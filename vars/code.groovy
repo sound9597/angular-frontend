@@ -1,6 +1,5 @@
-def call (string.imagename string.region string.ecrname string.credentialsId) {
-     }
-pipeline {
+def call (string.imagename string.region string.ecrname string.credentialsId) 
+    pipeline {
     agent any
     stages {
         stage('docker-build') {
