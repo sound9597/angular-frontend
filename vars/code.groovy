@@ -1,7 +1,7 @@
 def call(String imagename, String region, String ecrname, String credentialsId) {
     pipeline {
         agent any
-          stages {
+        stages {
             stage('docker-build') {
                 steps {
                     script {
@@ -9,22 +9,12 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                     }
                 }
             }
-             stage('Deploy to AWS') {
-               environment { 
-                 steps {
-                  AWS_DEFAULT_REGION = "${region}"
-                  steps {
+            stage('Deploy to AWS') {
+                environment { 
+                    AWS_DEFAULT_REGION = "${region}"
                     ECR_REPO_URL = "533267263918.dkr.ecr.${region}.amazonaws.com/${ecrname}"
-                  steps {
                     DOCKER_IMAGE_NAME = "${imagename}"
                 }
-                }
-             }
-                 }
-               }
-            }
-                 
-               stage('Add credentials')
                 steps {
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
@@ -41,5 +31,7 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                 }
             }
         }
-    
+    }
+}
+
 
