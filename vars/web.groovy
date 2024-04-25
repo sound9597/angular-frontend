@@ -11,7 +11,7 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                 environment { 
                     // Define environment variables outside of the script block
                     AWS_DEFAULT_REGION = region
-                    ECR_REPO_URL = 'https://us-east-1.console.aws.amazon.com/ecr/private-registry/repositories?region=us-east-1'
+                    ECR_REPO_URL = "533267263918.dkr.ecr.us-east-1.amazonaws.com/${ecrname}"
                     DOCKER_IMAGE_NAME = imagename
                 }
                 steps {
@@ -23,9 +23,9 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        bat "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 533267263918.dkr.ecr.us-east-1.amazonaws.com"
-                        bat "docker tag ${imagename} 533267263918.dkr.ecr.us-east-1.amazonaws.com/${ecrname}:latest"
-                        bat "docker push 533267263918.dkr.ecr.us-east-1.amazonaws.com/${ecrname}:latest"
+                        bat "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ECR_REPO_URL}"
+                        bat "docker tag ${imagename} ${ECR_REPO_URL}:latest"
+                        bat "docker push ${ECR_REPO_URL}:latest"
                     }
                 }
             }
