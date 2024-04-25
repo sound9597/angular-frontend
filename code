@@ -1,3 +1,4 @@
+@Library(string.imagename string.region string.ecrname ) _
 pipeline {
     agent any
     stages {
