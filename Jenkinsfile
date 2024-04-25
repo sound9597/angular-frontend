@@ -1,3 +1,3 @@
-@Library('code' ) _
-code('soundarya','us-east-1','angular','aws' ) 
+@Library('web' ) _
+web('soundarya','us-east-1','angular','aws' ) 
 
