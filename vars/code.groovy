@@ -10,14 +10,20 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                 }
             }
              stage('Deploy to AWS') {
-               steps {
-                environment { 
-                    AWS_DEFAULT_REGION = "${region}"
+               environment { 
+                 steps {
+                  AWS_DEFAULT_REGION = "${region}"
+                  steps {
                     ECR_REPO_URL = "533267263918.dkr.ecr.${region}.amazonaws.com/${ecrname}"
+                  steps {
                     DOCKER_IMAGE_NAME = "${imagename}"
                 }
                 }
              }
+                 }
+               }
+            }
+                 
                stage('Add credentials')
                 steps {
                     withCredentials([[
