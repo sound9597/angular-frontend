@@ -1,7 +1,7 @@
 def call(String imagename, String region, String ecrname, String credentialsId) {
     pipeline {
         agent any
-        stages {
+           stages {
             stage('docker-build') {
                 steps {
                     script {
