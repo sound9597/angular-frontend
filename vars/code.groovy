@@ -41,5 +41,5 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                 }
             }
         }
-    }
+    
 
