@@ -1,10 +1,3 @@
-pipeline {
-  agent any
-   stages{
-       stage('docker-build') {
-         steps {
-           bat "docker build -t soundarya ."
-       }
-   }
-}
-}
+@Library('code' ) _
+code('soundarya','us ) _
+
