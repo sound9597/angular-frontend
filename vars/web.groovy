@@ -1,4 +1,4 @@
-def call (String.imagename String.region String.ecrname String.credentialsId)  
+def call (String imagename String region String ecrname String credentialsId)  
 pipeline {
     agent any
     stages {
