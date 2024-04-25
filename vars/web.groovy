@@ -1,36 +1,33 @@
-def call(String imagename, String region, String ecrname, String credentialsId) {
+// File: deployToAWS.groovy
+
+def call(String imageName, String region, String ecrName, String credentialsId) {
     pipeline {
         agent any
         stages {
             stage('docker-build') {
                 steps {
-                    script {
-                        // Wrap the bat command in a script block
-                        bat "docker build -t ${imagename} ."
-                    }
+                    bat "docker build -t ${imageName} ."
                 }
             }
             stage('Deploy to AWS') {
                 environment { 
                     // Define environment variables outside of the script block
                     AWS_DEFAULT_REGION = region
-                    ECR_REPO_URL = "533267263918.dkr.ecr.${region}.amazonaws.com/${ecrname}"
-                    DOCKER_IMAGE_NAME = imagename
+                    ECR_REPO_URL = 'https://us-east-1.console.aws.amazon.com/ecr/private-registry/repositories?region=us-east-1'
+                    DOCKER_IMAGE_NAME = imageName
                 }
                 steps {
-                    // Wrap the steps in a script block
-                    script {
-                        withCredentials([[
-                            $class: 'AmazonWebServicesCredentialsBinding',
-                            credentialsId: credentialsId,
-                            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                        ]]) {
-                            // Wrap bat commands in a script block
-                            bat "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ECR_REPO_URL}"
-                            bat "docker tag ${imagename} ${ECR_REPO_URL}:latest"
-                            bat "docker push ${ECR_REPO_URL}:latest"
-                        }
+                    // Remove the unnecessary script block here
+                    // You can add deployment steps directly
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: credentialsId,
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        bat "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin 533267263918.dkr.ecr.us-east-1.amazonaws.com"
+                        bat "docker tag ${imageName} 533267263918.dkr.ecr.us-east-1.amazonaws.com/${ecrName}:latest"
+                        bat "docker push 533267263918.dkr.ecr.us-east-1.amazonaws.com/${ecrName}:latest"
                     }
                 }
             }
