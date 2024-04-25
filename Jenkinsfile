@@ -2,6 +2,14 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
     pipeline {
         agent any
         stages {
+            stage('Dummy Stage') {
+                steps {
+                    // Dummy stage to satisfy Jenkins requirement
+                    script {
+                        echo "This is a dummy stage"
+                    }
+                }
+            }
             stage('docker-build') {
                 steps {
                     script {
