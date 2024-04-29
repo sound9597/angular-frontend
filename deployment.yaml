@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: angular-container
-        image: soundarya/react:latest  # Replace with your Docker image
+        image: soundary/frontend:latest  # Replace with your Docker image
         ports:
         - containerPort: 4200
