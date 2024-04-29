@@ -13,9 +13,9 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
             stage('Deploy to AWS') {
                 environment { 
                     // Define environment variables
-                    AWS_DEFAULT_REGION = region
+                    AWS_DEFAULT_REGION = "${region}"
                     ECR_REPO_URL = "533267263918.dkr.ecr.${region}.amazonaws.com/${ecrname}"
-                    DOCKER_IMAGE_NAME = imagename
+                    DOCKER_IMAGE_NAME = "${imagename}"
                 }
                 steps {
                     // AWS ECR authentication and Docker push stage
@@ -29,11 +29,4 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                         script {
                             sh "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ECR_REPO_URL}"
                             sh "docker tag ${imagename} ${ECR_REPO_URL}:latest"
-                            sh "docker push ${ECR_REPO_URL}:latest"
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+                            sh "
