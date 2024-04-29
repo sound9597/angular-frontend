@@ -29,4 +29,11 @@ def call(String imagename, String region, String ecrname, String credentialsId) 
                         script {
                             sh "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${ECR_REPO_URL}"
                             sh "docker tag ${imagename} ${ECR_REPO_URL}:latest"
-                            sh "
+                            sh "docker push ${ECR_REPO_URL}:latest"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
